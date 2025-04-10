@@ -9,6 +9,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.PrintWriter;
+import java.sql.*;
 
 /**
  *
@@ -25,8 +26,8 @@ public class Servlet3 extends HttpServlet {
         out.println("<link rel='stylesheet' type='text/css' href='css/style.css'>");
         out.println("</head><body>");
         out.println("<form method='post' action='/MyWebApp/Servlet3'>");
-        out.println("Name: <input type='text' name='name' required><br>");
-        out.println("Email: <input type='email' name='email' required><br>");
+        out.println("Username: <input type='text' name='username' required><br>");
+        out.println("Password: <input type='password' name='password' required><br>");
         out.println("<input type='submit' value='Submit'>");
         out.println("</form>");
         out.println("</body></html>");
@@ -37,17 +38,37 @@ public class Servlet3 extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html");
         PrintWriter out = response.getWriter();
-        String name = request.getParameter("name");
-        String email = request.getParameter("email");
+        String un = request.getParameter("username");
+        String ps = request.getParameter("password");
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection conn = Database.connect();
+            
+            String sql = "SELECT * FROM login WHERE username=? AND password=?";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setString(1, un);
+            stmt.setString(2, ps);
+            ResultSet rs = stmt.executeQuery();
 
-        out.println("<!DOCTYPE html>");
-        out.println("<html><head><title>Form Result</title>");
-        out.println("<link rel='stylesheet' type='text/css' href='css/style.css'>");
-        out.println("</head><body>");
-        out.println("<h2>Form Submitted Successfully!</h2>");
-        out.println("<p>Name: " + name + "</p>");
-        out.println("<p>Email: " + email + "</p>");
-        out.println("</body></html>");
+            response.setContentType("text/html");
+            out.println("<!DOCTYPE html>");
+            out.println("<html><head><title>Login Result</title>");
+            out.println("<link rel='stylesheet' type='text/css' href='css/style.css'>");
+            out.println("</head><body>");
+
+            if (rs.next()) {
+                out.println("<h2>Login Successful! Welcome, " + un + ".</h2>");
+            } else {
+                out.println("<h2>Invalid Credentials! Try Again.</h2>");
+                out.println("<a href='Servlet3'>Back to Login</a>");
+            }
+
+            out.println("</body></html>");
+            conn.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+            out.println("<h2>Error connecting to the database!</h2>");
+        }
     }
 }
 
