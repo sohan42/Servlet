@@ -16,7 +16,7 @@ public class Database {
     public static Connection connect(){
         try {
             Connection c = DriverManager.getConnection(url,user,password);
-            System.out.println("Success...");
+            //System.out.println("Success...");
             return c;
         } catch (SQLException ex) {
             return null;

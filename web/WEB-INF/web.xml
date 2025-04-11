@@ -12,6 +12,14 @@
         <servlet-name>Servlet3</servlet-name>
         <servlet-class>Servlet3</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>MyCookies</servlet-name>
+        <servlet-class>MyCookies</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>MySession</servlet-name>
+        <servlet-class>MySession</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Servlet1</servlet-name>
         <url-pattern>/Servlet1</url-pattern>
@@ -23,5 +31,13 @@
     <servlet-mapping>
         <servlet-name>Servlet3</servlet-name>
         <url-pattern>/Servlet3</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>MyCookies</servlet-name>
+        <url-pattern>/MyCookies</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>MySession</servlet-name>
+        <url-pattern>/MySession</url-pattern>
     </servlet-mapping>
 </web-app>
